@@ -1,0 +1,58 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}Ajouter un client{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+        {{ form_errors(form) }}
+
+        {{ form_label(form.marque, "Nom de la marque *") }}
+        {{ form_errors(form.marque) }}
+        {{ form_widget(form.marque, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.file, "Logo *") }}
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.adresse, "Adresse du client *") }}
+        {{ form_errors(form.adresse) }}
+        {{ form_widget(form.adresse, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.adresseCP, "Code postal *") }}
+        {{ form_errors(form.adresseCP) }}
+        {{ form_widget(form.adresseCP, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.adresseVille, "Ville *") }}
+        {{ form_errors(form.adresseVille) }}
+        {{ form_widget(form.adresseVille, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.site, "Site internet") }}
+        {{ form_errors(form.site) }}
+        {{ form_widget(form.site, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.commentaires, "Commentaires") }}
+        {{ form_errors(form.commentaires) }}
+        {{ form_widget(form.commentaires, {'attr': {'class': 'form-elem big'}}) }}
+
+        <div class="form-collection">
+            <h3>Gestion des contacts </h3>
+            <ul class="collection elements"  data-prototype="{{ form_widget(form.contacts.vars.prototype)|e('html_attr') }}">
+                {# iterate over each existing tag and render its only field: name #}
+                {% spaceless %}
+                {% for contact in form.contacts %}
+                    <li class="collection-line">{{ form_row(contact) }}</li>
+                {% endfor %}
+                {% endspaceless %}
+
+            </ul>
+        </div><br>
+
+        {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+{%  endblock %}
+
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/collection.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,37 @@
+evenement_homepage:
+    path:     /
+    defaults: { _controller: EvenementBundle:Default:index }
+
+#Back-Office
+admin_evenement_ajouter:
+    path:     /admin/evenement/ajouter
+    defaults: { _controller: EvenementBundle:Evenement:AdminAjouter }
+
+admin_evenement_manager:
+    path:     /admin/evenement/manager
+    defaults: { _controller: EvenementBundle:Evenement:AdminManager }
+
+admin_evenement_modifier:
+    path:     /admin/evenement/modifier/{id}
+    defaults: { _controller: EvenementBundle:Evenement:AdminModifier }
+    requirements:
+        id: \d+
+
+#Dates
+admin_evenement_ajouter_date:
+    path:     /admin/evenement/ajouter/date/{evtid}
+    defaults: { _controller: EvenementBundle:Evenement:AdminAjouterDate }
+    requirements:
+        evtid: \d+
+
+admin_evenement_ajouter_date:
+    path:     /admin/evenement/modifier/date/{id}
+    defaults: { _controller: EvenementBundle:Evenement:AdminModifierDate }
+    requirements:
+        id: \d+
+
+admin_evenement_view:
+    path:     /admin/evenement/{id}
+    defaults: { _controller: EvenementBundle:Evenement:AdminViewEvenement }
+    requirements:
+        id: \d+

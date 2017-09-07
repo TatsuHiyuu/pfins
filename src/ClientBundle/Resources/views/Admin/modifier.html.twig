@@ -1,0 +1,113 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}Modifier le client : {{ client.marque }} {% endblock %}
+
+{% block cssBefore %}
+    <link href="{{ asset('js/sweet/sweet.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+	{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+		{{ form_errors(form) }}
+
+		{{ form_label(form.marque, "Nom de la marque *") }}
+		{{ form_errors(form.marque) }}
+		{{ form_widget(form.marque, {'attr': {'class': 'form-elem big'}}) }}
+
+			{% if client.logo is not empty %}
+				<div id="ajaxImage1">
+					<div class="form-image big">
+						<img src="{{ asset(client.uploadDir ~ '/' ~  client.logo) }}">
+						{#<br>#}
+						{#<a href="{{ path('admin_client_supprimer_image',{'entity':'Client','id': client.id})}}" class="btn rouge sweetDeleteImage" data-parent="ajaxImage1"><i class="fa fa-trash"></i> Supprimer le logo</a>#}
+					</div>
+				</div>
+			{% endif %}
+
+		{{ form_label(form.file, "Logo *") }}
+		{{ form_errors(form.file) }}
+		{{ form_widget(form.file, {'attr': {'class': 'form-elem big'}}) }}
+
+		{{ form_label(form.adresse, "Adresse du client *") }}
+		{{ form_errors(form.adresse) }}
+		{{ form_widget(form.adresse, {'attr': {'class': 'form-elem big'}}) }}
+
+		{{ form_label(form.adresseCP, "Code postal *") }}
+		{{ form_errors(form.adresseCP) }}
+		{{ form_widget(form.adresseCP, {'attr': {'class': 'form-elem big'}}) }}
+
+		{{ form_label(form.adresseVille, "Ville *") }}
+		{{ form_errors(form.adresseVille) }}
+		{{ form_widget(form.adresseVille, {'attr': {'class': 'form-elem big'}}) }}
+
+		{{ form_label(form.site, "Site internet") }}
+		{{ form_errors(form.site) }}
+		{{ form_widget(form.site, {'attr': {'class': 'form-elem big'}}) }}
+
+		{{ form_label(form.commentaires, "Commentaires") }}
+		{{ form_errors(form.commentaires) }}
+		{{ form_widget(form.commentaires, {'attr': {'class': 'form-elem big'}}) }}
+
+		<div class="form-collection">
+			<h3>Gestion des contacts </h3>
+			<ul class="collection elements"  data-prototype="{{ form_widget(form.contacts.vars.prototype)|e('html_attr') }}">
+				{# iterate over each existing tag and render its only field: name #}
+					{% for contact in form.contacts %}
+						{#<li class="collection-line">{{ form_row(contact) }}</li>#}
+						<li class="collection-line">
+                            {{ form_label(contact.nom, "Nom *") }}
+                            {{ form_errors(contact.nom) }}
+                            {{ form_widget(contact.nom, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {{ form_label(contact.prenom, "Prénom *") }}
+                            {{ form_errors(contact.prenom) }}
+                            {{ form_widget(contact.prenom, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {% if contacts[loop.index0].photo is defined %}
+								<div id="ajaxImage1">
+									<div class="form-image big">
+										<img src="{{ asset('img/client/photo/' ~ contacts[loop.index0].photo) }}">
+                                        {% if contacts[loop.index0].photo is not null %}
+											<br>
+											<a href="{{ path('admin_client_supprimer_image',{'id': contacts[loop.index0].id})}}" class="btn rouge sweetDeleteImage" data-parent="ajaxImage1"><i class="fa fa-trash"></i> Supprimer la photo</a>
+                                        {% endif %}
+									</div>
+								</div>
+                            {% endif %}
+
+                            {{ form_label(contact.file, "Photo") }}
+                            {{ form_errors(contact.file) }}
+                            {{ form_widget(contact.file, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {{ form_label(contact.fonction, "Fonction") }}
+                            {{ form_errors(contact.fonction) }}
+                            {{ form_widget(contact.fonction, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {{ form_label(contact.telephone, "Numéro de téléphone") }}
+                            {{ form_errors(contact.telephone) }}
+                            {{ form_widget(contact.telephone, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {{ form_label(contact.portable, "Numéro de portable *") }}
+                            {{ form_errors(contact.portable) }}
+                            {{ form_widget(contact.portable, {'attr': {'class': 'form-elem big'}}) }}
+
+                            {{ form_label(contact.email, "E-mail *") }}
+                            {{ form_errors(contact.email) }}
+                            {{ form_widget(contact.email, {'attr': {'class': 'form-elem big'}}) }}<br>
+						</li>
+                    {% endfor %}
+
+			</ul>
+		</div><br>
+
+		{{ form_rest(form) }}
+
+	{{ form_end(form) }}
+{% endblock %}
+
+{% block scriptBefore %}
+	<script type="text/javascript" src="{{ asset('js/collection.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/sweet/sweet.js')}}"></script>
+{% endblock %}

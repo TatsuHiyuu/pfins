@@ -1,0 +1,77 @@
+@media screen and (max-width: 1200px) {
+
+	#headerMobile{
+		display: block;
+	}
+
+	#menu {
+		@include transform(translateX(-180px));
+	}
+
+	#container{
+		@include transform(translateX(0px));
+		width: 100%;
+
+		.fiche {
+			//width: 100%;
+			display: block;
+		}
+	}
+
+}
+
+@media screen and (max-width: 800px) {
+
+	#container{
+		.fiche {
+			.ficheHeader {
+				max-height: none;
+				.logo {
+					width: 100%;
+				}
+				.informations {
+					display: block;
+					width: 100%;
+				}
+			}
+			.contenuFiche {
+				display: block;
+			}
+			//.ongletFiche {
+			//	&.active, &.inactive {
+			//		p {font-size: 10px;}
+			//	}
+			//}
+
+		}
+	}
+
+}
+
+@media screen and (max-width: 600px) {
+
+	#container{
+		.fiche {
+			width: 100%;
+			.ongletFiche {
+				&.active, &.inactive {
+					p {font-size: 10px;}
+				}
+			}
+			.slider {
+				padding: 17px 17px;
+				margin: 0;
+				img {
+					display: none;
+				}
+				a.next {
+					right: -34px;
+				}
+				a.previous {
+					left: -34px;
+				}
+			}
+		}
+	}
+
+}

@@ -1,0 +1,24 @@
+client_homepage:
+    path:     /
+    defaults: { _controller: ClientBundle:Default:index }
+
+#Back-Office
+admin_client_ajouter:
+    path:     /admin/client/ajouter
+    defaults: { _controller: ClientBundle:Client:AdminAjouter }
+
+admin_client_manager:
+    path:     /admin/client/manager
+    defaults: { _controller: ClientBundle:Client:AdminManager }
+
+admin_client_modifier:
+    path:     /admin/client/modifier/{id}
+    defaults: { _controller: ClientBundle:Client:AdminModifier }
+    requirements:
+        id: \d+
+
+admin_client_supprimer_image:
+    path:   /admin/client/supprimer-image/{id}
+    defaults: { _controller: ClientBundle:Client:AdminSupprimerImage }
+    requirements:
+        id: \d+

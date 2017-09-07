@@ -1,0 +1,53 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}{{ evenementnom }} <h2>Ajouter une date</h2>{% endblock %}
+
+{% block cssAfter %}
+    <link href="{{ asset('js/datedropper/datedropper.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+        {{ form_errors(form) }}
+
+        {{ form_label(form.nom, "Nom *") }}
+        {{ form_errors(form.nom) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.date, "Date *") }}
+        {{ form_errors(form.date) }}
+        {{ form_widget(form.date, {'attr': {'class': 'form-elem big dateRassemblement'}}) }}
+
+        {{ form_label(form.lieu, "Lieu *") }}
+        {{ form_errors(form.lieu) }}
+        {{ form_widget(form.lieu, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.nbPDV, "Nombre de points de vente invités *") }}
+        {{ form_errors(form.nbPDV) }}
+        {{ form_widget(form.nbPDV, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.placesParPDV, "Nombre de personne par point de vente *") }}
+        {{ form_errors(form.placesParPDV) }}
+        {{ form_widget(form.placesParPDV, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.nbBC, "Nombre d'invités au total *") }}
+        {{ form_errors(form.nbBC) }}
+        {{ form_widget(form.nbBC, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_label(form.commentaires, "Commentaire") }}
+        {{ form_errors(form.commentaires) }}
+        {{ form_widget(form.commentaires, {'attr': {'class': 'form-elem big'}}) }}
+
+        {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+{%  endblock %}
+
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/collection.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/datedropper/datedropper.js')}}"></script>
+    <script>
+        $('.dateRassemblement').dateDropper();
+    </script>
+{% endblock %}

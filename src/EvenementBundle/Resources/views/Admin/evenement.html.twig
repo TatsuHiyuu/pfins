@@ -1,0 +1,25 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}{{ evenement.nom }} <h2>Gestion de l'événement</h2>{% endblock %}
+
+{% block cssAfter %}
+    <link href="{{ asset('js/datedropper/datedropper.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+    {{ form_errors(form) }}
+
+        {{ form_label(form.file, "Sélectionner un fichier") }}
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file, {'attr': {'class': 'form-elem big'}}) }}
+
+    {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/csv.js')}}"></script>
+{% endblock %}

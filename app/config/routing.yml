@@ -1,0 +1,19 @@
+suivi:
+    resource: "@SuiviBundle/Resources/config/routing.yml"
+    prefix:   /
+
+evenement:
+    resource: "@EvenementBundle/Resources/config/routing.yml"
+    prefix:   /
+
+client:
+    resource: "@ClientBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+global:
+    resource: "@GlobalBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -1,0 +1,80 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}Modifier l'événement : {{ evenement.nom }} {% endblock %}
+
+{% block cssAfter %}
+    <link href="{{ asset('js/datedropper/datedropper.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+	{{ form_start(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+        {{ form_errors(form) }}
+
+            {{ form_label(form.statut, "Statut *") }}
+            {{ form_errors(form.statut) }}
+            {{ form_widget(form.statut, {'attr': {'class': 'form-elem big'}}) }}
+
+            {{ form_label(form.client, "Client *") }}
+            {{ form_errors(form.client) }}
+            {{ form_widget(form.client, {'attr': {'class': 'form-elem big'}}) }}
+
+            {{ form_label(form.nom, "Nom *") }}
+            {{ form_errors(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-elem big'}}) }}
+
+            {{ form_label(form.dateDebut, "Date de début *") }}
+            {{ form_errors(form.dateDebut) }}
+            {{ form_widget(form.dateDebut, {'attr': {'class': 'form-elem big'}}) }}
+
+            {{ form_label(form.dateFin, "Date de fin *") }}
+            {{ form_errors(form.dateFin) }}
+            {{ form_widget(form.dateFin, {'attr': {'class': 'form-elem big'}}) }}
+
+            {{ form_label(form.description, "Description") }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-elem big'}}) }}
+
+            <div class="form-collection">
+                <h3>Gestion des documents </h3>
+                <ul class="collection elements"  data-prototype="{{ form_widget(form.documents.vars.prototype)|e('html_attr') }}">
+                    {#iterate over each existing tag and render its only field: name #}
+                    {% for document in form.documents %}
+                        <li class="collection-line">
+                            {#{{ form_row(document) }}#}
+                            <!-- Insértion des docs dans une div pour que le bouton supprimer aille à la ligne -->
+                            <div>
+
+                                {{ form_label(document.titre, "Titre *") }}
+                                {{ form_errors(document.titre) }}
+                                {{ form_widget(document.titre, {'attr': {'class': 'form-elem big'}}) }}
+
+                                {{ form_label(document.file, "Fichier") }}
+                                {{ form_errors(document.file) }}
+                                {{ form_widget(document.file, {'attr': {'class': 'form-elem big'}}) }}
+
+                                {{ form_label(document.description, "Description") }}
+                                {{ form_errors(document.description) }}
+                                {{ form_widget(document.description, {'attr': {'class': 'form-elem big'}}) }}
+
+                            </div>
+                        </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+        {{ form_rest(form) }}
+
+	{{ form_end(form) }}
+{% endblock %}
+
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/collection.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/datedropper/datedropper.js')}}"></script>
+    <script>
+        $('#evenementbundle_evenement_dateDebut').dateDropper();
+        $('#evenementbundle_evenement_dateFin').dateDropper();
+    </script>
+{% endblock %}

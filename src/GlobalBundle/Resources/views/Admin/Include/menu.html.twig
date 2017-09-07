@@ -1,0 +1,42 @@
+{% set menuUtilisateur = ['admin_user_manager', 'admin_user_ajouter', 'admin_user_modifier', 'admin_user_password'] %}
+{% set menuClient = ['admin_client_manager', 'admin_client_ajouter'] %}
+{% set menuEvenement = ['admin_evenement_manager', 'admin_evenement_ajouter'] %}
+{#{% set menuEvenement = ['admin_parametre_manager'] %}#}
+
+<nav id="menu">
+
+	<div id="menuEntreprise">
+		<p>Colocarts</p>
+	</div>
+
+	<div id="menuLogo">
+		<img src="{{ asset('img/admin/logo.png') }}" alt="">
+	</div>
+
+	<a href="{{ path('admin_page_index')}}" class="menuNav"><i class="fa fa-home"></i> Dashboard</a>
+
+    <a href="#" data-nav="utilisateur-menu" class="menuNav {{ getCurrentMenu(menuUtilisateur) }}"> <i class="fa fa-users"></i> Utilisateurs <i class="fa fa-angle-right"></i></a>
+    <ul id="utilisateur-menu" class="{{ getCurrentMenu(menuUtilisateur) }}">
+        <li class="{{ getCurrentMenu(['admin_user_ajouter']) }}"><a href="{{ path('admin_user_ajouter')}}"><i class="fa fa-circle-o"></i> Ajouter un utilisateur</a></li>
+        <li class="{{ getCurrentMenu(['admin_user_manager']) }}"><a href="{{ path('admin_user_manager')}}"><i class="fa fa-circle-o"></i> Gestion des utilisateurs</a></li>
+	</ul>
+
+	<a href="#" data-nav="client-menu" class="menuNav {{ getCurrentMenu(menuClient) }}"> <i class="fa fa-users"></i> Clients <i class="fa fa-angle-right"></i></a>
+	<ul id="client-menu" class="{{ getCurrentMenu(menuClient) }}">
+		<li class="{{ getCurrentMenu(['admin_client_ajouter']) }}"><a href="{{ path('admin_client_ajouter')}}"><i class="fa fa-circle-o"></i> Ajouter un client</a></li>
+		<li class="{{ getCurrentMenu(['admin_client_manager']) }}"><a href="{{ path('admin_client_manager')}}"><i class="fa fa-circle-o"></i> Gestion des clients</a></li>
+	</ul>
+
+	<a href="#" data-nav="evenement-menu" class="menuNav {{ getCurrentMenu(menuEvenement) }}"> <i class="fa fa-users"></i> Événements <i class="fa fa-angle-right"></i></a>
+	<ul id="evenement-menu" class="{{ getCurrentMenu(menuEvenement) }}">
+		<li class="{{ getCurrentMenu(['admin_evenement_ajouter']) }}"><a href="{{ path('admin_evenement_ajouter')}}"><i class="fa fa-circle-o"></i> Ajouter un événement</a></li>
+		<li class="{{ getCurrentMenu(['admin_evenement_manager']) }}"><a href="{{ path('admin_evenement_manager')}}"><i class="fa fa-circle-o"></i> Gestion des événements</a></li>
+	</ul>
+
+	{#<a href="#" data-nav="parametre-menu" class="menuNav {{ getCurrentMenu(menuParametre) }}"> <i class="fa fa-users"></i> Paramètres <i class="fa fa-angle-right"></i></a>#}
+	{#<ul id="parametre-menu" class="{{ getCurrentMenu(menuEvenement) }}">#}
+		{#<li class="{{ getCurrentMenu(['admin_parametre_ajouter']) }}"><a href="{{ path('admin_parametre_ajouter')}}"><i class="fa fa-circle-o"></i> Ajouter un paramètre</a></li>#}
+		{#<li class="{{ getCurrentMenu(['admin_parametre_manager']) }}"><a href="{{ path('admin_parametre_manager')}}"><i class="fa fa-circle-o"></i> Gestion des paramètres</a></li>#}
+	{#</ul>#}
+
+</nav>

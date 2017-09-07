@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<title>{% block metaTitle %}{% endblock %}</title>
+
+	<meta name="description" content="{% block metaDescription %}{% endblock %}">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width; height=device-height; initial-scale=1; minimum-scale=1; maximum-scale=1">
+    <meta name="author" content="COMPLETER">
+
+    <!--  Partage pour les reseaux sociaux -->
+    {% block openGraph %}
+        <meta property="og:title" content="COMPLETER">
+        <meta property="og:description" content="COMPLETER">
+        <meta property="og:image" content="COMPLETER">
+
+        <meta name="twitter:title" content="COMPLETER">
+        <meta name="twitter:description" content="COMPLETER">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="COMPLETER">
+        <meta name="twitter:creator" content="COMPLETER">
+        <meta name="twitter:image" content="COMPLETER">
+    {% endblock %}
+
+	<link rel="icon" type="image/png" href="{{ asset('img/layout/favicon.png') }}">
+	<link href="{{ asset('css/client/app.css')}}" rel="stylesheet" type="text/css">
+
+	{% block css %}{% endblock %}
+</head>
+
+<body>
+
+	<main class="main">
+
+        <!-- Contenu principal du site -->
+        {% block content %}
+        {% endblock %}
+
+	</main>
+	
+	<!-- Librairies javascript -->
+	{% if app.environment == 'prod' %}
+		<script type="text/javascript" src="{{ asset('js/client/app_min.js')}}"></script>
+	{% else %}
+		<script type="text/javascript" src="{{ asset('js/jquery/jquery.js')}}"></script>
+		<script type="text/javascript" src="{{ asset('js/client/app.js')}}"></script>
+	{% endif %}
+    {% block script %}{% endblock %}
+
+</body>
+</html>

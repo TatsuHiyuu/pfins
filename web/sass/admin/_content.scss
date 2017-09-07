@@ -1,0 +1,221 @@
+.fiche {
+  background-color: $grisBlanc;
+  padding: 17px 34px 17px 34px;
+  margin: 0 17px 17px 0;
+  width: 550px;
+  //max-width: 640px;
+  min-height: 520px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  @include border-radius(17px 17px);
+
+  .statutTag {
+    font-size: xx-small;
+    padding: 3px;
+    background-color: $grisNoir;
+    color: $blanc;
+    vertical-align: 25%;
+    @include border-radius(3px);
+      &.statut1 {
+        background-color: $grisNoir;
+        color: $blanc;
+      }
+      &.statut2 {
+        background-color: $blanc;
+        color: $turquoise;
+      }
+      &.statut3 {
+        background-color: $turquoise;
+        color: $blanc;
+      }
+      &.statut4 {
+        background-color: $grisClair;
+        color: $blanc;
+      }
+      &.statut5 {
+        background-color: $rouge;
+        color: $blanc;
+      }
+  }
+
+  .right {
+    position: absolute;
+    right: 34px;
+  }
+
+  .ficheHeader {
+    max-height: 170px;
+    margin-bottom: 17px;
+
+    .logo {
+      width: 30%;
+      img {
+        width: 100%;
+        max-width: 170px;
+        margin: 0 auto 17px auto;
+      }
+    }
+
+    .informations {
+      margin: 0 0 17px 17px;
+      width: calc(70% - 21px);
+      //max-width: calc(70% - 21px);
+
+      .infoTitre {
+        height: 20%;
+      }
+
+      .infoDescription {
+        //width: 200px;
+        //max-width: calc(100% - 255px);
+        height: auto;
+        max-height: 112px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+  }
+
+  .ongletFiche {
+    padding: 14px 14px 7px 14px;
+    display: inline-block;
+    @include border-radius(17px 17px 0 0);
+
+    &.active {
+      background-color: $blanc;
+    }
+
+    &.inactive {
+      background-color: $grisBordure;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .contenuFiche {
+    display: inline-block;
+    vertical-align: top;
+
+    img {
+      margin: 0 17px 17px 0;
+    }
+
+  }
+
+  .fondBlanc {
+    background-color: $blanc;
+    padding: 17px;
+    margin: 0 0 17px 0;
+  }
+
+  .listeDates {
+    list-style: none;
+    padding: 17px;
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .listeCommentaires {
+    list-style: none;
+    padding: 17px;
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    span.datetime {
+      color: $grisBordure;
+      font-style: italic;
+      font-size: 10px;
+      margin-right: 17px;
+    }
+
+    span.auteur {
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    span.text {
+      font-size: 12px;
+    }
+  }
+
+  .slider {
+    position: relative;
+    background-color: $blanc;
+    padding: 17px 68px;
+    margin: 0 0 17px 0;
+    list-style: none;
+
+    ul, li {
+      list-style: none;
+    }
+
+    li {
+      left: 0;
+      top: 0;
+      width :100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 1;
+      @include transition(opacity 1s);
+
+      &.showing {
+        opacity: 1;
+        z-index: 2;
+      }
+    }
+
+    a.next, a.previous {
+      position: absolute;
+      top: 40%;
+      z-index: 99;
+      display: block;
+      padding: 17px;
+      background-color: $grisFonce;
+      color: $blanc;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      opacity: 0.8;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+        @include transition(all 0.2s ease);
+      }
+    }
+
+    a.next {
+      right: 0;
+      border-radius: 2px 0 0 2px;
+    }
+
+    a.previous {
+      left: 0;
+      border-radius: 0 2px 2px 0;
+    }
+  }
+
+  .options {
+    text-align: right;
+  }
+
+  .clear {
+    display: block;
+  }
+}
+
+.hiding {
+  display: none;
+  visibility: hidden;
+}
+
+.showing {
+  display: block;
+  visibility: visible;
+}
+

@@ -1,0 +1,160 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}Gestion des événements{% endblock %}
+
+{% block content %}
+    <div id="recherche">
+        <form action="{{ path('admin_evenement_manager') }}" method="post">
+            <input type="text" name="evenementname" class="form-elem medium" value="{{  recherches.evenementname | default('') }}">
+
+            <button type="submit" name="addRecherche"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+    {% for evenement in pagination %}
+        <div class="fiche">
+            <div class="ficheHeader">
+                <div class="contenuFiche logo">
+                    <img src="{{ asset(evenement.client.uploadDir ~ '/' ~  evenement.client.logo) }}" width="170">
+                </div>
+                <div class="contenuFiche informations">
+                    <div class="infoTitre">
+                        <p>
+                            <strong>{{ evenement.nom|upper }} </strong><span class="statutTag statut{{ evenement.statut.id }}">{{ evenement.statut }}</span>
+                            <a href="{{ path('admin_evenement_modifier',{'id': evenement.id})}}" title="Modifier l'événement et ses documents"><i class="fa fa-pencil"></i></a>
+                            <a href="{{ path('admin_evenement_view',{'id': evenement.id})}}" title="Consulter l'événement en détail et gérer les PDV et BC"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        </p>
+                        <p>{{ evenement.client }}</p>
+                        <p class="tableDate">Du {{ evenement.dateDebut|date("d/m/Y") }} au {{ evenement.dateFin|date("d/m/Y") }}</p>
+                    </div>
+               {% if evenement.description is not null %}
+                    <div class="contenuFiche fondBlanc infoDescription">
+                        <p>{{ evenement.description }}</p>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="ficheBody">
+                {#<div class="clear"></div>#}
+                <div class="ongletFiche active" data-onglet="commentaire"><p><strong>Commentaires</strong></p></div>
+                <div class="ongletFiche inactive" data-onglet="date"><p><strong>Dates</strong></p></div>
+                <div class="ongletFiche inactive" data-onglet="document"><p><strong>Documents</strong></p></div>
+                <div class="zone fondBlanc showing" data-onglet="commentaire">
+                    <ul class="listeCommentaires">
+                    {% for commentaire in evenement.commentaires %}
+                        <li><span class="datetime">{{ commentaire.created|date("d/m/Y à H:i") }}</span></li>
+                        <li><span class="auteur">&lsaquo;{{ commentaire.user.username }}&rsaquo;</span> <span class="text">{{ commentaire.commentaire }}</span> </li>
+                    {% else %}
+
+                    {% endfor %}
+                    </ul>
+                        {% for key in forms|keys %}
+                            {% if key == evenement.id %}
+                                {{ form_start(forms[key]['view'], {'attr': {novalidate: 'novalidate'}}) }}
+
+                                {{ form_errors(forms[key]['view']) }}
+
+                                    {{ form_widget(forms[key]['view'].evenement_id, {'value' : evenement.id}) }}
+
+                                    {{ form_label(forms[key]['view'].commentaire, "Commentaires") }}
+                                    {{ form_errors(forms[key]['view'].commentaire) }}
+                                    {{ form_widget(forms[key]['view'].commentaire, {'attr': {'class': 'form-elem big'}}) }}
+
+                                {{ form_rest(forms[key]['view']) }}
+
+                                {{ form_end(forms[key]['view']) }}
+                            {% endif %}
+                        {% endfor %}
+                </div>
+                <div class="zone fondBlanc hiding" data-onglet="date">
+                    <ul class="listeDates">
+                        {% for date in evenement.rassemblements %}
+                            <li>{{ date.nom }}</li>
+                        {% else %}
+                            <li>Aucune date</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="options">
+                        <a href="{{ path('admin_evenement_ajouter_date',{'evtid': evenement.id})}}" title="Ajouter une date"><button class="btn">Ajouter une date</button></a>
+                    </div>
+                </div>
+                <div class="zone slider hiding" data-slider="{{ loop.index -1 }}" data-onglet="document">
+                    {% if evenement.documents|length > 0 %}
+                        <a href="#" class="next"><i class="fa fa-step-forward" aria-hidden="true"></i></a>
+                        <a href="#" class="previous"><i class="fa fa-step-backward" aria-hidden="true"></i></a>
+                        <a href="#" class="plus"><i class="fa fa-plus right" aria-hidden="true"></i></a>
+                        <a href="#" class="moins hiding"><i class="fa fa-minus right" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <ul>
+                    {%  for document in evenement.documents %}
+                        <li class="slide hiding">
+                            {#<div class="contenuFiche photo">#}
+                                {#{% if contact.photo is not null %}#}
+                                    {#<img src="{{ asset(contact.uploadDir ~ '/' ~  contact.photo) }}" width="100">#}
+                                {#{% else %}#}
+                                    {#<img src="{{ asset('img/evenement/photo/no_photo.png') }}" width="100">#}
+                                {#{% endif %}#}
+                            {#</div>#}
+                            <div class="contenuFiche text">
+                                <p><strong>{{ document.titre|upper }}</strong></p>
+                                {% if document.changed is not null %}
+                                    <p class="tableDate">Document modifié le {{ document.changed|date("d/m/Y à H:i") }} par {{ document.auteur }}</p>
+                                    {% else %}
+                                    <p class="tableDate">Document ajouté le {{ document.created|date("d/m/Y à H:i") }} par {{ document.auteur }}</p>
+                                {% endif %}
+                                <p>{{ document.description }}</p>
+                                <p><i class="fa fa-paperclip" aria-hidden="true"></i> {{ document.document }}</p>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                            {% else %}
+                            <p>Aucun document</p>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ficheFooter">
+                <p class="tableDate">Ajouté le {{ evenement.created|date("d/m/Y à H:i") }}</p>
+                {% if evenement.changed is not null %}
+                    <p class="tableDate">Modifié le {{ evenement.changed|date("d/m/Y à H:i") }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+            <div class="fiche">
+                <div class="ficheHeader">
+                    <div class="contenuFiche logo">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                    <div class="contenuFiche text">
+                        <p>
+                            <p>Aucun événement enregistré.</p>
+                        </p>
+                    </div>
+                </div>
+
+            <div class="ficheBody">
+                <div class="clear"></div>
+                <div class="ongletFiche"><p><strong>Information</strong></p></div>
+                <div class="fondBlanc">
+                    <p>Veuillez ajouter votre premier événement.</p>
+                </div>
+
+                <div class="options">
+                    <a href="{{ path('admin_evenement_ajouter') }}">
+                        <button class="btn">Ajouter un premier événement</button>
+                    </a>
+                </div>
+            </div>
+    {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{%  endblock %}
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/slider.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/fiche.js')}}"></script>
+{% endblock %}

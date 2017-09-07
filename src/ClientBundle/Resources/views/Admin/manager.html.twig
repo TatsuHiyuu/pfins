@@ -1,0 +1,128 @@
+{% extends "GlobalBundle:Admin/Layout:layout.html.twig" %}
+
+{% block contentTitre %}Gestion des clients{% endblock %}
+
+{% block content %}
+    <div id="recherche">
+        <form action="{{ path('admin_client_manager') }}" method="post">
+            <input type="text" name="clientname" class="form-elem medium" value="{{  recherches.clientname | default('') }}">
+
+            <button type="submit" name="addRecherche"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+    {% for client in pagination %}
+        <div class="fiche">
+            <div class="ficheHeader">
+                <div class="contenuFiche logo">
+                    <img src="{{ asset(client.uploadDir ~ '/' ~  client.logo) }}" width="100">
+                </div>
+                <div class="contenuFiche text">
+                    <p>
+                        <strong>{{ client.marque|upper }} </strong>
+                        <a href="{{ path('admin_client_modifier',{'id': client.id})}}" title="Modifier le client et ses contacts"><i class="tableAction fa fa-pencil right"></i></a>
+                    </p>
+                    <p>{{ client.adresse }}</p>
+                    <p>{{ client.adresseCP }}</p>
+                    <p>{{ client.adresseVille }}</p>
+                    <i class="fa fa-globe" aria-hidden="true"></i><a href="{{ client.site }}" title="Accéder au site de {{ client.marque }}"> {{ client.site }}</a>
+                </div>
+            </div>
+
+            <div class="ficheBody">
+                {#{% if client.commentaires is not null %}#}
+                    {#<div class="clear"></div>#}
+                    {#<div class="ongletFiche"><p><strong>Commentaires</strong></p></div>#}
+                    {#<div class="fondBlanc">#}
+                        {#<p>{{ client.commentaires }}</p>#}
+                    {#</div>#}
+                {#{% endif %}#}
+
+                <div class="clear"></div>
+                <div class="ongletFiche active" data-onglet="contact"><p><strong>Contacts</strong></p></div>
+                {% if client.commentaires is not null %}
+                <div class="ongletFiche inactive" data-onglet="commentaire"><p><strong>Commentaires</strong></p></div>
+                    <div class="zone fondBlanc hiding" data-onglet="commentaire">
+                        <p>{{ client.commentaires }}</p>
+                    </div>
+                {% endif %}
+                <div class="zone slider" data-onglet="contact" data-slider="{{ loop.index -1 }}">
+                    {% if client.contacts|length > 1 %}
+                    <a href="#" class="next"><i class="fa fa-step-forward" aria-hidden="true"></i></a>
+                    <a href="#" class="previous"><i class="fa fa-step-backward" aria-hidden="true"></i></a>
+                    <a href="#" class="plus"><i class="fa fa-plus right" aria-hidden="true"></i></a>
+                    <a href="#" class="moins hiding"><i class="fa fa-minus right" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <ul>
+                    {%  for contact in client.contacts %}
+                        <li class="slide hiding">
+                            <div class="contenuFiche photo">
+                                {% if contact.photo is not null %}
+                                    <img src="{{ asset(contact.uploadDir ~ '/' ~  contact.photo) }}" width="100">
+                                {% else %}
+                                    <img src="{{ asset('img/client/photo/no_photo.png') }}" width="100">
+                                {% endif %}
+                            </div>
+                                <div class="contenuFiche text">
+                                    <p><strong>{{ contact.nom|upper }} {{ contact.prenom }}</strong></p>
+                                    <p>{{ contact.fonction }}</p>
+                                    <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ contact.email }}</p>
+                                    <p><i class="fa fa-phone-square" aria-hidden="true"></i> {{ contact.telephone }}</p>
+                                </div>
+                            {#<div class="clear"></div>#}
+                        </li>
+                            {% else %}
+                            <p>Aucun contact</p>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="options">
+                    <div class="btn">Événements en cours</div>
+                    <div class="btn">Événements archivés</div>
+                </div>
+            </div>
+
+            <div class="ficheFooter">
+                <p class="tableDate">Ajouté le {{ client.created|date("d/m/Y à H:i") }}</p>
+                {% if client.changed is not null %}
+                    <p class="tableDate">Modifié le {{ client.changed|date("d/m/Y à H:i") }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+            <div class="fiche">
+                <div class="ficheHeader">
+                    <div class="contenuFiche logo">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                    <div class="contenuFiche text">
+                        <p>
+                            <p>Aucun client enregistré.</p>
+                        </p>
+                    </div>
+                </div>
+
+            <div class="ficheBody">
+                <div class="clear"></div>
+                <div class="ongletFiche"><p><strong>Information</strong></p></div>
+                <div class="fondBlanc">
+                    <p>Veuillez ajouter votre premier client.</p>
+                </div>
+
+                <div class="options">
+                    <a href="{{ path('admin_client_ajouter') }}">
+                        <div class="btn">Ajouter un premier client</div>
+                    </a>
+                </div>
+            </div>
+    {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{%  endblock %}
+{% block scriptBefore %}
+    <script type="text/javascript" src="{{ asset('js/slider.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/fiche.js')}}"></script>
+{% endblock %}
